@@ -16,3 +16,13 @@
         margin-right: 100px;
     }
 }
+
+.list {
+	width: 290px;
+	height: 120px;
+	padding: 5px;
+	overflow: hidden;
+	display: -ms-grid;
+	-ms-grid-columns: auto 1fr;
+	-ms-grid-rows: auto 1fr;
+}

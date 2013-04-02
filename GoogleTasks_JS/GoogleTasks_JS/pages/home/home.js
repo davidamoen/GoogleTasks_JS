@@ -7,7 +7,12 @@
         ready: function (element, options) {
 
             var api = new API();
-            api.Authorize();
+            if (localStorage.getItem("authInfo")) {
+                api.Refresh();
+            }
+            else {
+                api.Authorize();
+            }
 
         }
     });
