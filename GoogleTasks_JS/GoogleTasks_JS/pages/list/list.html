@@ -15,7 +15,8 @@
 <body>
     <div id="listitemtemplate" data-win-control="WinJS.Binding.Template">
         <div data-win-bind="className:className">
-            <div data-win-bind="textContent:title;"></div>
+            <input type="checkbox" data-win-bind="checked:checked" class="chkBox" />
+            <div data-win-bind="textContent:title;" class="taskName"></div>
         </div>
     </div>
 
