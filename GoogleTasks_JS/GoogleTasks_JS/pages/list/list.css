@@ -1,20 +1,25 @@
-﻿.homepage section[role=main] {
+﻿.list section[role=main] {
     margin-left: 120px;
     margin-right: 120px;
 }
 
 @media screen and (-ms-view-state: snapped) {
-    .homepage section[role=main] {
+    .list section[role=main] {
         margin-left: 20px;
         margin-right: 20px;
     }
 }
 
 @media screen and (-ms-view-state: fullscreen-portrait) {
-    .homepage section[role=main] {
+    .list section[role=main] {
         margin-left: 100px;
         margin-right: 100px;
     }
+}
+
+.completed {
+    background:#ccc;
+    text-decoration:line-through;
 }
 
 .todolist {
@@ -32,11 +37,11 @@
     border:2px solid #01538f;
 }
 
-#allLists .win-container {
+#todoList .win-container {
     outline:none;
 }
 
-#allLists .win-container:hover {
+#todoList .win-container:hover {
     background-color: #ccc; 
     outline: none;
 }  

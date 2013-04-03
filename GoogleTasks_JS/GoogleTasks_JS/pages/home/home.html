@@ -19,7 +19,7 @@
 <body>
 
     <div id="listtemplate" data-win-control="WinJS.Binding.Template">
-        <div class="list">
+        <div class="todolist">
             <a data-win-bind="href:selfLink">
             <div class="listName" data-win-bind="textContent:title"></div>
             </a>
@@ -37,7 +37,7 @@
            
         </header>
         <section aria-label="Main content" role="main">
-             <p>Windows 8 version!!</p>
+             <p>All of your Task Lists:</p>
                <div id="allLists" data-win-control="WinJS.UI.ListView" data-win-options="{itemTemplate: select('#listtemplate'), layout: {type: WinJS.UI.GridLayout}}"></div>
             
        </section>

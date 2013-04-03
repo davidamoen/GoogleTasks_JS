@@ -68,7 +68,7 @@
                                     // save the json for use during the next session
                                     localStorage.setItem("authInfo", request.responseText);
 
-                                    api.GetLists();
+                                    api.GetStartingPoint();
                                 },
                                 function error(request) {
                                     var r = request;
@@ -88,14 +88,26 @@
 
 
         },
-        GetLists: function () {
+        GetStartingPoint: function () {
+            var currentList = localStorage.getItem("currentList");
+            if (currentList) {
+                //this.GetList(currentList);
+                var item = JSON.parse(currentList);
+                WinJS.Navigation.navigate("/pages/list/list.html", { id: item.data.id, name: item.data.title, link: item.data.selfLink });
+            }
+            else {
+                this.GetAllLists();
+            }
+
+        },
+        GetAllLists: function () {
             api = this;
             var apiURL = 'https://www.googleapis.com/tasks/v1/users/@me/lists?maxResults=100&key=' + this.APIKey;
             var authHeader = 'Bearer ' + this.AccessToken
             WinJS.xhr({ url: apiURL, headers: { Authorization: authHeader } }).done(
                     function completed(request) {
                         var json = JSON.parse(request.responseText);
-                        api.DisplayLists(json);
+                        api.DisplayAllLists(json);
                     },
                     function error(request) {
                         var r = request;
@@ -105,15 +117,44 @@
                     }
             );
         },
-        DisplayLists: function (json) {
+        GetList: function (id) {
+            api = this;
+            var apiURL = 'https://www.googleapis.com/tasks/v1/lists/' + id + '/tasks?key=' + this.APIKey;
+            var authHeader = 'Bearer ' + this.AccessToken
+            WinJS.xhr({ url: apiURL, headers: { Authorization: authHeader } }).done(
+                    function completed(request) {
+                        var json = JSON.parse(request.responseText);
+                        api.DisplayList(json);
+                    },
+                    function error(request) {
+                        var r = request;
+                    },
+                    function progress(request) {
+                        var r = request;
+                    }
+            );
+
+        },
+        DisplayAllLists: function (json) {
+            var list = new WinJS.Binding.List(json.items);
+            var listview = document.getElementById('allLists').winControl;
+
+            listview.itemDataSource = list.dataSource;
+        },
+        DisplayList: function (json) {
+
+            for (var i in json.items) {
+                var item = json.items[i];
+                item.className = "todolist " + item.status;
+            }
 
             var list = new WinJS.Binding.List(json.items);
+            var listview = document.getElementById('todoList').winControl;
 
-            var listview = document.getElementById('allLists').winControl;
             listview.itemDataSource = list.dataSource;
         },
         Refresh: function () {
-            var api = this;
+            //var api = this;
             var previousAuth = localStorage.getItem("authInfo");
             var json = JSON.parse(previousAuth);
             this.AccessToken = json.access_token;
@@ -133,8 +174,7 @@
                     function completed(request) {
                         var json = JSON.parse(request.responseText);
                         api.AccessToken = json.access_token;
-
-                        api.GetLists();
+                        api.GetStartingPoint();
                     },
                     function error(request) {
                         var r = request;
@@ -147,7 +187,7 @@
             );
 
 
-            this.GetLists();
+            this.GetAllLists();
         }
     }
 );

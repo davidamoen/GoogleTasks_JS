@@ -65,6 +65,9 @@
     <Content Include="pages\home\home.html" />
     <Content Include="pages\home\home.js" />
     <Content Include="default.html" />
+    <Content Include="pages\list\list.css" />
+    <Content Include="pages\list\list.html" />
+    <Content Include="pages\list\list.js" />
     <None Include="GoogleTasks_JS_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
