@@ -146,6 +146,7 @@
             for (var i in json.items) {
                 var item = json.items[i];
                 item.className = "todolist " + item.status;
+                item.checked = item.status == "completed";
             }
 
             var list = new WinJS.Binding.List(json.items);
@@ -188,6 +189,31 @@
 
 
             this.GetAllLists();
+        },
+        ClickTask: function (item) {
+            var status = item.data.checked ? "completed" : "needsAction";
+            var apiUrl = item.data.selfLink + "?key=" + this.APIKey;
+            var jsonData = { status: status, id: item.data.id };
+
+            var params = {
+                url: apiUrl,
+                type: "put",
+                headers: { "Content-type": "application/json", "Authorization": "Bearer " + this.AccessToken },
+                data: JSON.stringify(jsonData)
+            };
+
+            WinJS.xhr(params).done(
+                    function completed(request) {
+                        var json = JSON.parse(request.responseText);
+                    },
+                    function error(request) {
+                        var r = request;
+                    },
+                    function progress(request) {
+                        var r = request;
+                    }
+            );
+
         }
     }
 );

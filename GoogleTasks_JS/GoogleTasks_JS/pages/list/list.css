@@ -44,4 +44,8 @@
 #todoList .win-container:hover {
     background-color: #ccc; 
     outline: none;
-}  
+}
+
+.taskName {
+    margin:0 0 0 30px;
+}

@@ -18,6 +18,48 @@
                 WinJS.Navigation.back();
             }
 
+            listview.winControl.addEventListener("click", listClick, false);
+            listview.winControl.addEventListener("iteminvoked", function (e) {
+                e.detail.itemPromise.done(
+                    function (item) {
+                        listview.winControl.itemInvoked = item;
+                    });
+            }, false);
+
+            function listClick(e) {
+                var obj = e.srcElement;
+                if (obj.localName == "input") {
+                    obj = obj.parentNode;
+                }
+
+                if (WinJS.Utilities.hasClass(obj, "todolist")) {
+                    var item = listview.winControl.itemInvoked;
+                    var children = WinJS.Utilities.children(obj);
+                    var chkBox;
+
+                    for (var i in children) {
+                        var child = children[i];
+                        if (WinJS.Utilities.hasClass(child, "chkBox")) {
+                            chkBox = child;
+                            break;
+                        }
+                    }
+
+                    if (item.data.checked) {
+                        chkBox.checked = false;
+                        item.data.checked = false;
+                        WinJS.Utilities.removeClass(obj, "completed");
+                    }
+                    else {
+                        chkBox.checked = true;
+                        item.data.checked = true;
+                        WinJS.Utilities.addClass(obj, "completed");
+                    }
+
+                    api.ClickTask(item);
+
+                }
+            }
         },
 
         unload: function () {
